@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yearly Catchup — Ilya Rucavitcyn | Sigli 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       SIGLI BRAND VARIABLES
+    ======================================== */
+    :root {
+      --sigli-green: #75C133;
+      --sigli-blue: #4d65ff;
+      --sigli-light-grey: #ECEEF3;
+      --sigli-blue-grey: #F2F9FF;
+      --sigli-dark: #111827;
+      --text-dark: #111827;
+      --text-muted: #6b7280;
+      --red: #e05252;
+      --red-bg: rgba(239,68,68,0.07);
+      --red-border: rgba(239,68,68,0.22);
+      --green-bg: rgba(117,193,51,0.08);
+      --green-border: rgba(117,193,51,0.28);
+      --blue-bg: rgba(77,101,255,0.08);
+      --blue-border: rgba(77,101,255,0.25);
+      --amber: #d97706;
+      --amber-bg: rgba(245,158,11,0.09);
+      --amber-border: rgba(245,158,11,0.28);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background: #070b14;
+    }
+
+    /* ========================================
+       PRESENTATION WRAPPER + STAGE
+    ======================================== */
+    .presentation {
+      width: 100vw; height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stage {
+      width: min(1400px, calc(100vw - 40px));
+      height: min(820px, calc(100vh - 60px));
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.07);
+    }
+
+    /* ========================================
+       SLIDES — base
+    ======================================== */
+    .slide {
+      position: absolute;
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 52px 76px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.38s ease;
+      overflow: hidden;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Background variants */
+    .bg-white    { background: #ffffff; }
+    .bg-offwhite { background: #f5f8ff; }
+    .bg-grey     { background: #f0f2f7; }
+    .bg-dark     { background: var(--sigli-dark); }
+
+    /* ========================================
+       SLIDE CONTENT CONTAINER
+    ======================================== */
+    .content {
+      max-width: 1100px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 18px;
+    }
+
+    .content.dense { gap: 12px; }
+    .content.left  { align-items: flex-start; text-align: left; }
+
+    /* ========================================
+       TYPOGRAPHY
+    ======================================== */
+    h1 {
+      font-size: clamp(30px, 4.2vw, 54px);
+      font-weight: 900;
+      line-height: 1.15;
+      color: var(--text-dark);
+      letter-spacing: -0.01em;
+    }
+
+    h2 {
+      font-size: clamp(17px, 1.9vw, 22px);
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .slide-label {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--sigli-green);
+    }
+
+    .accent      { color: var(--sigli-green); }
+    .accent-blue { color: var(--sigli-blue); }
+    .text-muted  { color: var(--text-muted); }
+    .text-small  { font-size: 15px; font-weight: 400; }
+
+    /* ── Dark slide overrides ── */
+    .bg-dark h1           { color: #ffffff; }
+    .bg-dark h2           { color: rgba(255,255,255,0.5); }
+    .bg-dark .slide-label { color: var(--sigli-green); }
+    .bg-dark .section-head {
+      color: rgba(255,255,255,0.38);
+      border-color: rgba(255,255,255,0.12);
+    }
+    .bg-dark .divider { background: rgba(255,255,255,0.1); }
+    .bg-dark .bullet  { color: rgba(255,255,255,0.82); }
+    .bg-dark .bullet::before { background: var(--sigli-green); }
+
+    /* ── Dark slide table overrides ── */
+    .bg-dark table th {
+      color: rgba(255,255,255,0.4);
+      border-color: rgba(255,255,255,0.12);
+    }
+    .bg-dark table td {
+      color: rgba(255,255,255,0.82);
+      border-color: rgba(255,255,255,0.1);
+    }
+    .bg-dark tr:last-child td { border-bottom: none; }
+    .bg-dark td.c-green { color: var(--sigli-green); }
+    .bg-dark td.c-red   { color: #ff7575; }
+    .bg-dark td.c-bold  { color: rgba(255,255,255,0.95); font-weight: 700; }
+    .bg-dark td.c-muted { color: rgba(255,255,255,0.35); }
+    .bg-dark tr.row-red   td { background: rgba(239,68,68,0.14); }
+    .bg-dark tr.row-green td { background: rgba(117,193,51,0.1); }
+
+    /* ========================================
+       TABLES — base
+    ======================================== */
+    .tbl-wrap { width: 100%; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: clamp(16px, 1.4vw, 18px);
+      text-align: left;
+    }
+
+    th {
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      padding: 9px 13px;
+      border-bottom: 2px solid var(--sigli-light-grey);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 9px 13px;
+      border-bottom: 1px solid var(--sigli-light-grey);
+      color: var(--text-dark);
+      vertical-align: top;
+      line-height: 1.45;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    /* Row tints */
+    tr.row-green td { background: var(--green-bg); }
+    tr.row-red   td { background: var(--red-bg); }
+    tr.row-blue  td { background: var(--blue-bg); }
+
+    /* Cell highlights */
+    td.c-green { color: var(--sigli-green); font-weight: 700; }
+    td.c-blue  { color: var(--sigli-blue);  font-weight: 700; }
+    td.c-red   { color: var(--red);         font-weight: 600; }
+    td.c-bold  { font-weight: 700; }
+    td.c-muted { color: var(--text-muted); }
+
+    /* Compact table variant */
+    .tbl-compact th { padding: 7px 11px; font-size: 15px; }
+    .tbl-compact td { padding: 7px 11px; font-size: clamp(15px, 1.25vw, 17px); }
+
+    /* ========================================
+       BADGES
+    ======================================== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-success { background: rgba(117,193,51,0.12); color: var(--sigli-green); border: 1px solid rgba(117,193,51,0.28); }
+    .badge-primary { background: rgba(77,101,255,0.12); color: var(--sigli-blue);  border: 1px solid rgba(77,101,255,0.25); }
+    .badge-danger  { background: rgba(239,68,68,0.10);  color: var(--red);         border: 1px solid rgba(239,68,68,0.22); }
+    .badge-warning { background: rgba(245,158,11,0.12); color: var(--amber);       border: 1px solid rgba(245,158,11,0.22); }
+
+    /* ========================================
+       METRIC CARDS ROW
+    ======================================== */
+    .metrics-row {
+      display: flex;
+      gap: 18px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .metric-card {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid var(--sigli-light-grey);
+      border-radius: 14px;
+      padding: 22px 18px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+
+    .bg-offwhite .metric-card { background: #ffffff; }
+
+    .metric-value {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 5px;
+      color: var(--sigli-green);
+    }
+
+    .metric-value.is-blue { color: var(--sigli-blue) !important; }
+
+    .metric-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .metric-delta {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--sigli-green);
+      margin-top: 5px;
+    }
+
+    /* ========================================
+       ROLE CARDS (Slide 2)
+    ======================================== */
+    .role-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      width: 100%;
+    }
+
+    .role-card {
+      background: #f7f8fb;
+      border-radius: 14px;
+      padding: 20px 14px 18px;
+      text-align: center;
+      border-top: 4px solid transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .role-card.rc-amber { border-top-color: var(--amber); }
+    .role-card.rc-blue  { border-top-color: var(--sigli-blue); }
+    .role-card.rc-green { border-top-color: var(--sigli-green); }
+
+    .role-pct {
+      font-size: clamp(28px, 3.4vw, 42px);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .role-pct.is-amber { color: var(--amber); }
+    .role-pct.is-blue  { color: var(--sigli-blue); }
+    .role-pct.is-green { color: var(--sigli-green); }
+
+    .role-name {
+      font-size: clamp(15px, 1.1vw, 16px);
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+
+    .role-activities {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* ========================================
+       DEPT GPM% CARDS (Slide 3)
+    ======================================== */
+    .dept-cards {
+      display: flex;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .dept-card {
+      flex: 1;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-align: center;
+      border: 1px solid var(--sigli-light-grey);
+      border-top: 3px solid var(--sigli-green);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .dept-label {
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .dept-range {
+      font-size: clamp(17px, 1.7vw, 22px);
+      font-weight: 900;
+      color: var(--sigli-green);
+    }
+
+    /* ========================================
+       SERVICE CARDS (Slide 5)
+    ======================================== */
+    .service-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      width: 100%;
+    }
+
+    .service-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 18px 15px;
+      border: 1px solid var(--sigli-light-grey);
+      border-top: 4px solid transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+
+    .service-card.sc-green { border-top-color: var(--sigli-green); }
+    .service-card.sc-blue  { border-top-color: var(--sigli-blue); }
+    .service-card.sc-amber { border-top-color: var(--amber); }
+
+    .service-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+
+    .service-badge {
+      display: inline-flex;
+      padding: 3px 10px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 600;
+      align-self: flex-start;
+    }
+
+    .sc-green .service-badge { background: var(--green-bg);  color: var(--sigli-green); border: 1px solid var(--green-border); }
+    .sc-blue  .service-badge { background: var(--blue-bg);   color: var(--sigli-blue);  border: 1px solid var(--blue-border); }
+    .sc-amber .service-badge { background: var(--amber-bg);  color: var(--amber);        border: 1px solid var(--amber-border); }
+
+    .service-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* ========================================
+       AI CHIPS (Slide 5)
+    ======================================== */
+    .ai-chips {
+      display: flex;
+      gap: 14px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .ai-chip {
+      flex: 1;
+      max-width: 340px;
+      background: var(--blue-bg);
+      border: 1px solid var(--blue-border);
+      border-radius: 10px;
+      padding: 13px 20px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--sigli-blue);
+      text-align: center;
+    }
+
+    /* ========================================
+       RANGE CARDS (Slide 7)
+    ======================================== */
+    .range-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      width: 100%;
+    }
+
+    .range-card {
+      background: #f7f8fb;
+      border-radius: 14px;
+      padding: 18px 14px;
+      text-align: center;
+      border: 1px solid transparent;
+    }
+
+    .range-card.is-featured {
+      background: var(--blue-bg);
+      border-color: var(--blue-border);
+    }
+
+    .range-source {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 9px;
+      line-height: 1.35;
+    }
+
+    .range-value {
+      font-size: clamp(17px, 1.9vw, 23px);
+      font-weight: 900;
+      color: var(--text-dark);
+      line-height: 1.1;
+    }
+
+    .range-card.is-featured .range-source { color: var(--sigli-blue); }
+    .range-card.is-featured .range-value  { color: var(--sigli-blue); }
+
+    .range-sub {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    /* ========================================
+       BENEFIT CARDS (Slide 7)
+    ======================================== */
+    .benefit-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .benefit-card {
+      background: #f7f8fb;
+      border-radius: 12px;
+      padding: 15px 18px;
+      text-align: left;
+      border-left: 3px solid var(--sigli-green);
+    }
+
+    .benefit-label {
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .benefit-value {
+      font-size: clamp(15px, 1.3vw, 17px);
+      font-weight: 500;
+      color: var(--text-dark);
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       TWO-COLUMN GRID
+    ======================================== */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .col { display: flex; flex-direction: column; gap: 10px; }
+
+    /* ========================================
+       BULLET LISTS
+    ======================================== */
+    .bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      text-align: left;
+      width: 100%;
+    }
+
+    .bullet {
+      font-size: clamp(16px, 1.45vw, 18px);
+      color: var(--text-dark);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.5;
+    }
+
+    .bullet::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--sigli-green);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    /* ========================================
+       CHECK LIST (closing slide)
+    ======================================== */
+    .check-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+      width: 100%;
+      max-width: 740px;
+    }
+
+    .check-item {
+      font-size: clamp(16px, 1.45vw, 18px);
+      color: var(--text-dark);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      line-height: 1.5;
+      background: #f7f8fb;
+      padding: 13px 16px;
+      border-radius: 10px;
+      border-left: 3px solid var(--sigli-green);
+    }
+
+    .check-item::before {
+      content: '✓';
+      color: var(--sigli-green);
+      font-weight: 900;
+      font-size: 17px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ========================================
+       SECTION HEADER / DIVIDER
+    ======================================== */
+    .section-head {
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--sigli-light-grey);
+      padding-bottom: 5px;
+      margin-bottom: 6px;
+      width: 100%;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--sigli-light-grey);
+    }
+
+    /* ========================================
+       TITLE SLIDE
+    ======================================== */
+    .title-rule {
+      width: 48px; height: 4px;
+      background: var(--sigli-green);
+      border-radius: 2px;
+      margin: 10px auto 16px;
+    }
+
+    .title-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(117,193,51,0.09) 0%, transparent 65%);
+      bottom: -180px; right: -120px;
+      pointer-events: none;
+    }
+
+    .title-glow-2 {
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(77,101,255,0.06) 0%, transparent 65%);
+      top: -150px; left: -80px;
+      pointer-events: none;
+    }
+
+    /* ========================================
+       PROPOSAL SLIDE — hero rate
+    ======================================== */
+    .rate-hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      line-height: 1;
+    }
+
+    .rate-num {
+      font-size: clamp(56px, 8.5vw, 104px);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .rate-num.old  { color: rgba(255,255,255,0.18); }
+    .rate-num.new  { color: var(--sigli-green); }
+
+    .rate-arrow {
+      font-size: clamp(30px, 4.5vw, 62px);
+      color: rgba(255,255,255,0.22);
+      font-weight: 300;
+      margin: 0 6px;
+    }
+
+    .rate-unit {
+      font-size: clamp(18px, 2.5vw, 34px);
+      font-weight: 700;
+      color: rgba(255,255,255,0.4);
+      align-self: flex-end;
+      padding-bottom: 12px;
+    }
+
+    /* ========================================
+       SOURCES SLIDE
+    ======================================== */
+    .source-group { margin-bottom: 16px; }
+    .source-group h4 {
+      font-size: 15px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--text-muted); margin-bottom: 8px;
+    }
+    .source-link {
+      display: block; font-size: 17px;
+      color: var(--sigli-blue); text-decoration: none;
+      padding: 3px 0; line-height: 1.4;
+    }
+    .source-link:hover { text-decoration: underline; }
+    .source-plain {
+      font-size: 17px; color: var(--text-muted);
+      display: block; padding: 3px 0;
+    }
+
+    /* ========================================
+       PROGRESS BAR + COUNTER + NAV DOTS
+    ======================================== */
+    .progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: var(--sigli-green);
+      transition: width 0.35s ease;
+      z-index: 1000;
+    }
+
+    .slide-counter {
+      position: fixed;
+      bottom: 18px; right: 24px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.35);
+      font-family: Inter, sans-serif;
+      z-index: 1000;
+    }
+
+    .nav-dots {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 1000;
+      background: rgba(0,0,0,0.20);
+      backdrop-filter: blur(10px);
+      padding: 8px 14px;
+      border-radius: 20px;
+    }
+
+    .nav-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.28);
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+    }
+
+    .nav-dot.active {
+      background: var(--sigli-green);
+      transform: scale(1.45);
+    }
+
+    .key-hint {
+      position: fixed;
+      bottom: 18px; left: 24px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.28);
+      font-family: Inter, sans-serif;
+      z-index: 1000;
+    }
+
+    /* ========================================
+       SEQUENTIAL FADE-UP ANIMATION
+       data-step="auto" = reveal on slide entry
+       data-step="N"    = reveal on Nth keypress
+    ======================================== */
+    .fu { opacity: 1; transform: none; }
+    .fu.in { opacity: 1; transform: none; }
+
+    /* ========================================
+       RESPONSIVE
+    ======================================== */
+    @media (max-width: 900px) {
+      .slide { padding: 36px 32px; }
+      .two-col { grid-template-columns: 1fr; gap: 16px; }
+      .metrics-row { flex-direction: column; }
+      .role-cards { grid-template-columns: repeat(2, 1fr); }
+      .service-cards { grid-template-columns: repeat(2, 1fr); }
+      .range-cards { grid-template-columns: repeat(2, 1fr); }
+      .benefit-cards { grid-template-columns: 1fr; }
+    }
+
+    @media (max-height: 680px) {
+      .slide { padding: 30px 60px; }
+      h1 { font-size: clamp(24px, 4vw, 38px) !important; }
+      .content.dense { gap: 7px; }
+      td, th { padding: 5px 9px !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="presentation">
+  <div class="stage" id="stage">
+
+    <!-- ══════════════════════════════════════
+         SLIDE 1 — TITLE
+    ══════════════════════════════════════ -->
+    <div class="slide bg-dark active" id="s0">
+      <div class="title-glow"></div>
+      <div class="title-glow-2"></div>
+
+      <div class="content" style="gap:5px; position:relative; z-index:1;">
+        <div class="fu" data-step="auto"
+             style="font-size:15px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--sigli-green);">
+          Sigli · February 2026
+        </div>
+        <h1 class="fu sd1" data-step="auto"
+            style="font-size:clamp(44px,6.8vw,76px); color:#fff; margin-top:4px; letter-spacing:-0.02em;">
+          Yearly <span class="accent">Catchup</span>
+        </h1>
+        <div class="title-rule fu sd2" data-step="auto"></div>
+        <div class="fu sd3" data-step="auto"
+             style="font-size:clamp(18px,2.2vw,26px); font-weight:700; color:#fff; letter-spacing:-0.01em;">
+          Ilya Rucavitcyn
+        </div>
+        <div class="fu sd4" data-step="auto"
+             style="font-size:clamp(15px,1.45vw,18px); color:rgba(255,255,255,0.4); margin-top:2px; font-weight:400;">
+          Head of JS, PHP and QA Departments
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 2 — ROLE & SCOPE
+         Step 1: label + h1
+         Step 2: role cards
+         Step 3: footer bullets
+    ══════════════════════════════════════ -->
+    <div class="slide bg-white" id="s1">
+      <div class="content dense">
+        <div class="slide-label fu" data-step="1">Role &amp; Scope</div>
+        <h1 class="fu sd1" data-step="1">One title, <span class="accent">four roles</span></h1>
+
+        <div class="role-cards fu" data-step="2">
+          <div class="role-card rc-amber">
+            <div class="role-pct is-amber">30%</div>
+            <div class="role-name">Pre-sales Engineer</div>
+            <div class="role-activities">Validation · estimates · proposals · budgets</div>
+          </div>
+          <div class="role-card rc-blue">
+            <div class="role-pct is-blue">25%</div>
+            <div class="role-name">VP of Engineering</div>
+            <div class="role-activities">New services · AI initiatives · tech stack</div>
+          </div>
+          <div class="role-card rc-blue">
+            <div class="role-pct is-blue">25%</div>
+            <div class="role-name">Resource Manager</div>
+            <div class="role-activities">Hiring · mentors · salaries · escalations</div>
+          </div>
+          <div class="role-card rc-green">
+            <div class="role-pct is-green">20%</div>
+            <div class="role-name">Project &amp; Client Management</div>
+            <div class="role-activities">JS consulting · PO/PM · discovery</div>
+          </div>
+        </div>
+
+        <div class="bullets fu" data-step="3" style="margin-top:2px;">
+          <div class="bullet">3 departments: JavaScript, PHP, Quality Assurance — <strong>31 people</strong></div>
+          <div class="bullet">Scope typically distributed across 3–4 positions in comparable companies</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 3 — 2025 FINANCIAL RESULTS
+         Step 1: label + h1
+         Step 2: metric cards
+         Step 3: dept GPM% cards
+    ══════════════════════════════════════ -->
+    <div class="slide bg-offwhite" id="s2">
+      <div class="content dense">
+        <div class="slide-label fu" data-step="1">2025 Results</div>
+        <h1 class="fu sd1" data-step="1">GPM grew <span class="accent">+17.4% YoY</span></h1>
+
+        <div class="metrics-row fu" data-step="2">
+          <div class="metric-card">
+            <div class="metric-value">906K</div>
+            <div class="metric-label">Total GPM 2025</div>
+            <div class="metric-delta">↑ +134,186 EUR vs 2024</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value is-blue">31</div>
+            <div class="metric-label">Active Contractors</div>
+            <div class="metric-delta">↑ +6 people (+24%)</div>
+          </div>
+        </div>
+
+        <div class="fu" data-step="3" style="width:100%;">
+          <div class="section-head" style="margin-bottom:12px;">GPM% by Department — all improved</div>
+          <div class="dept-cards">
+            <div class="dept-card">
+              <div class="dept-label">JavaScript</div>
+              <div class="dept-range">39% → 41%</div>
+            </div>
+            <div class="dept-card">
+              <div class="dept-label">PHP</div>
+              <div class="dept-range">41% → 42%</div>
+            </div>
+            <div class="dept-card">
+              <div class="dept-label">Quality Assurance</div>
+              <div class="dept-range">53% → 54%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 4 — PRE-SALES
+         Step 1: label + h1
+         Step 2: stat cards
+         Step 3: highlight bullets
+    ══════════════════════════════════════ -->
+    <div class="slide bg-white" id="s3">
+      <div class="content dense">
+        <div class="slide-label fu" data-step="1">Pre-sales</div>
+        <h1 class="fu sd1" data-step="1">Pre-sales: <span class="accent">~12–15 engagements led</span></h1>
+
+        <div class="fu" data-step="2" style="display:flex; gap:14px; width:100%;">
+          <div style="flex:1; background:var(--green-bg); border:1px solid var(--green-border); border-radius:12px; padding:16px 18px; text-align:center; box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+            <div style="font-size:15px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); margin-bottom:7px;">Contracts Signed</div>
+            <div style="font-size:clamp(30px,3.8vw,46px); font-weight:900; color:var(--sigli-green); line-height:1;">2</div>
+            <div style="font-size:15px; color:var(--text-muted); margin-top:6px; font-weight:500;">SamTrack · Fortuna</div>
+          </div>
+          <div style="flex:1; background:var(--blue-bg); border:1px solid var(--blue-border); border-radius:12px; padding:16px 18px; text-align:center; box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+            <div style="font-size:15px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); margin-bottom:7px;">In Progress / High Probability</div>
+            <div style="font-size:clamp(30px,3.8vw,46px); font-weight:900; color:var(--sigli-blue); line-height:1;">2</div>
+            <div style="font-size:15px; color:var(--text-muted); margin-top:6px; font-weight:500;">Stembridge · Centera</div>
+          </div>
+        </div>
+
+        <div class="section-head fu" data-step="3">Highlights</div>
+        <div class="bullets fu sd1" data-step="3">
+          <div class="bullet"><strong>SamTrack</strong> — First low-code project (Bubble.io). 3–4 people, 2 months, GPM 60%. Support contract signed.</div>
+          <div class="bullet"><strong>Fortuna</strong> — New Finance &amp; Investment client. AS IS discovery 2025, engagement continues in 2026.</div>
+          <div class="bullet"><strong>Stembridge</strong> — Direct referral, no sales involved. Bubble.io proposal at contract review.</div>
+          <div class="bullet"><strong>Adexin</strong> — New joint pre-sales partnership. German client opportunity in progress.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 5 — NEW SERVICES
+         Step 1: label + h1
+         Step 2: service cards
+         Step 3: divider + AI chips
+    ══════════════════════════════════════ -->
+    <div class="slide bg-grey" id="s4">
+      <div class="content dense">
+        <div class="slide-label fu" data-step="1">Strategy</div>
+        <h1 class="fu sd1" data-step="1">4 new service lines <span class="accent">initiated or delivered in 2025</span></h1>
+
+        <div class="service-cards fu" data-step="2">
+          <div class="service-card sc-green">
+            <div class="service-name">Low-code (Bubble.io)</div>
+            <span class="service-badge">Delivered</span>
+            <div class="service-desc">SamTrack live · Stembridge near-close</div>
+          </div>
+          <div class="service-card sc-blue">
+            <div class="service-name">Odoo</div>
+            <span class="service-badge">In Progress</span>
+            <div class="service-desc">PO/PM on internal migration; client offering in preparation</div>
+          </div>
+          <div class="service-card sc-amber">
+            <div class="service-name">QA Mobile Testing</div>
+            <span class="service-badge">Started</span>
+            <div class="service-desc">Started with QA lead, not yet launched</div>
+          </div>
+          <div class="service-card sc-amber">
+            <div class="service-name">Typo3 Development</div>
+            <span class="service-badge">Started</span>
+            <div class="service-desc">Started with PHP lead, not yet launched</div>
+          </div>
+        </div>
+
+        <div class="divider fu" data-step="3"></div>
+        <div class="section-head fu" data-step="3">Internal Strategic Initiatives — elevated to company priority</div>
+        <div class="ai-chips fu sd1" data-step="3">
+          <div class="ai-chip">AI for Development</div>
+          <div class="ai-chip">AI for QA</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 6 — TEAM & PEOPLE
+         Step 1: label + h1
+         Step 2: bullets
+    ══════════════════════════════════════ -->
+    <div class="slide bg-offwhite" id="s5">
+      <div class="content dense">
+        <div class="slide-label fu" data-step="1">People</div>
+        <h1 class="fu sd1" data-step="1">
+          Headcount: <span class="accent">25 → 31</span>
+          <span class="text-muted text-small">&nbsp;(+24%)</span>
+        </h1>
+
+        <div class="bullets fu" data-step="2" style="margin-top:4px;">
+          <div class="bullet">Proactive capacity build (QA for Sensotec) + organic project demand</div>
+          <div class="bullet"><strong>Hard hire completed:</strong> NodeJS developer for Copaco — 6 months, multi-stage assessment, complex vendor friction</div>
+          <div class="bullet"><strong>New mentors:</strong> Anna (JS) and Yauheni (QA) stepped into mentor + interviewer roles</div>
+          <div class="bullet"><strong>Retention:</strong> 6 departures (JS: 4, PHP: 2, QA: 0) — all project-end, no mentor or senior losses</div>
+          <div class="bullet"><strong>Speaking:</strong> AI Meetup, Ghent, Belgium — January 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 7 — MARKET DATA
+         Step 1: label + h1
+         Step 2: range cards
+         Step 3: benefit cards
+    ══════════════════════════════════════ -->
+    <div class="slide bg-white" id="s6">
+      <div class="content dense">
+        <div class="slide-label fu" data-step="1">Market Research</div>
+        <h1 class="fu sd1" data-step="1" style="font-size:clamp(26px,3.8vw,46px);">
+          Engineering Manager — <span class="accent">B2B, Poland</span>
+          <span class="text-muted text-small">&nbsp;(2025–2026)</span>
+        </h1>
+
+        <div class="range-cards fu" data-step="2">
+          <div class="range-card">
+            <div class="range-source">Active vacancies<br><span style="font-weight:400;">(14 B2B postings)</span></div>
+            <div class="range-value">6,400 – 8,700</div>
+            <div class="range-sub">EUR / mo</div>
+          </div>
+          <div class="range-card">
+            <div class="range-source">Itentio<br><span style="font-weight:400;">(38 B2B postings)</span></div>
+            <div class="range-value">7,440 – 9,490</div>
+            <div class="range-sub">EUR / mo</div>
+          </div>
+          <div class="range-card">
+            <div class="range-source">Glassdoor<br><span style="font-weight:400;">Warsaw, P25–P75</span></div>
+            <div class="range-value">6,200 – 9,460</div>
+            <div class="range-sub">EUR / mo</div>
+          </div>
+          <div class="range-card is-featured">
+            <div class="range-source">Head of Engineering<br><span style="font-weight:400;">scope tier</span></div>
+            <div class="range-value">8,300 – 11,300</div>
+            <div class="range-sub">EUR / mo</div>
+          </div>
+        </div>
+
+        <div class="benefit-cards fu" data-step="3">
+          <div class="benefit-card">
+            <div class="benefit-label">Bonus standard</div>
+            <div class="benefit-value">76% of EMs receive bonus — 10–20% of base, up to 30% for leadership roles</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-label">Benefits standard</div>
+            <div class="benefit-value">Medical · Multisport · Laptop — plus 25–26 vacation days + 13 public holidays = <strong>38–39 days total</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 8 — COMPENSATION GAP (dark)
+         Step 1: label + h1
+         Step 2: gap table
+         Step 3: bonus note
+         Step 4: benefits gap table
+    ══════════════════════════════════════ -->
+    <div class="slide bg-dark" id="s7">
+      <div class="content dense" style="gap:10px;">
+        <div class="slide-label fu" data-step="1">Compensation Gap</div>
+        <h1 class="fu sd1" data-step="1" style="font-size:clamp(24px,3.6vw,44px);">
+          Base salary: <span class="accent">5,680 EUR/mo</span>
+          <span style="color:rgba(255,255,255,0.35); font-size:0.56em; font-weight:400;">&nbsp;— below market floor for both tiers</span>
+        </h1>
+
+        <div class="tbl-wrap fu" data-step="2">
+          <table>
+            <thead>
+              <tr><th>Role Tier</th><th>Market Base Range</th><th>Current Base</th><th>Gap</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Engineering Manager</td>
+                <td class="c-green c-bold">6,400 – 8,700</td>
+                <td class="c-red">5,680</td>
+                <td class="c-red">–720 to –3,020</td>
+              </tr>
+              <tr class="row-red">
+                <td class="c-bold">Head of Engineering</td>
+                <td class="c-green c-bold">8,300 – 11,300</td>
+                <td class="c-red c-bold">5,680</td>
+                <td class="c-red c-bold">–2,620 to –5,620</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="fu" data-step="3"
+             style="width:100%; padding:10px 15px; background:rgba(117,193,51,0.1); border:1px solid rgba(117,193,51,0.28); border-radius:10px; font-size:clamp(15px,1.25vw,17px); color:rgba(255,255,255,0.82); text-align:left;">
+          <strong style="color:var(--sigli-green);">Bonus:</strong> On par with market — 13.4% / 760 EUR/mo, no change needed
+        </div>
+
+        <div class="tbl-wrap fu" data-step="4">
+          <div class="section-head">Benefits Gap</div>
+          <table class="tbl-compact">
+            <thead>
+              <tr><th>Item</th><th>Market Standard</th><th>Current</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Medical / Multisport / Equipment</td>
+                <td class="c-green">Included</td>
+                <td class="c-red">Not included</td>
+              </tr>
+              <tr>
+                <td>Days off</td>
+                <td class="c-green">38–39 total</td>
+                <td class="c-red">19 (incl. public holidays)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 9 — ROLE SCOPE VS MARKET TIERS
+         Step 1: label + h1
+         Step 2: comparison table
+    ══════════════════════════════════════ -->
+    <div class="slide bg-white" id="s8">
+      <div class="content" style="gap:12px;">
+        <div class="slide-label fu" data-step="1">Role Scope</div>
+        <h1 class="fu sd1" data-step="1" style="font-size:clamp(24px,3.4vw,42px);">
+          Role Scope <span class="accent">vs Market Tiers</span>
+        </h1>
+
+        <div class="tbl-wrap fu" data-step="2" style="width:100%;">
+          <table class="tbl-compact">
+            <thead>
+              <tr>
+                <th>Dimension</th>
+                <th>Eng. Manager
+                  <div style="font-weight:500; color:var(--sigli-green); font-size:15px; margin-top:2px; text-transform:none; letter-spacing:0;">6,400–8,700</div>
+                </th>
+                <th>Head of Eng.
+                  <div style="font-weight:500; color:var(--sigli-green); font-size:15px; margin-top:2px; text-transform:none; letter-spacing:0;">8,300–11,300</div>
+                </th>
+                <th style="color:var(--sigli-blue);">Current Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Team size</td>
+                <td>5–25</td>
+                <td>20–40+</td>
+                <td class="c-blue c-bold">31 (3 depts)</td>
+              </tr>
+              <tr>
+                <td>Departments</td>
+                <td>1–2</td>
+                <td>Multiple</td>
+                <td class="c-blue c-bold">3 (JS, PHP, QA)</td>
+              </tr>
+              <tr>
+                <td>Hiring decisions</td>
+                <td>Participates</td>
+                <td>Owns</td>
+                <td class="c-blue c-bold">Owns for 3 depts</td>
+              </tr>
+              <tr>
+                <td>Salary decisions</td>
+                <td>No</td>
+                <td>Yes</td>
+                <td class="c-blue c-bold">Yes</td>
+              </tr>
+              <tr>
+                <td>Pre-sales involvement</td>
+                <td>Rarely</td>
+                <td>Sometimes</td>
+                <td class="c-blue c-bold">Yes — 30% of time</td>
+              </tr>
+              <tr>
+                <td>Technology strategy</td>
+                <td>Input only</td>
+                <td>Owns</td>
+                <td class="c-blue c-bold">Owns (new service lines)</td>
+              </tr>
+              <tr>
+                <td>Cross-functional leadership</td>
+                <td>Limited</td>
+                <td>Yes</td>
+                <td class="c-blue c-bold">Yes — Sales, Delivery, HR, TA</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 10 — 2026 PLANS
+         Step 1: label + h1
+         Step 2: plans bullets
+         Step 3: divider + team goals
+    ══════════════════════════════════════ -->
+    <div class="slide bg-offwhite" id="s9">
+      <div class="content dense">
+        <div class="slide-label fu" data-step="1">2026</div>
+        <h1 class="fu sd1" data-step="1">Continuing and <span class="accent">expanding</span></h1>
+
+        <div class="bullets fu" data-step="2">
+          <div class="bullet"><strong>Low-code</strong> — Close Stembridge, expand workshops, build on SamTrack success</div>
+          <div class="bullet"><strong>ERPNext</strong> — Evaluate as next service line</div>
+          <div class="bullet"><strong>Adexin</strong> — Grow joint pre-sales, pursue German client opportunity</div>
+          <div class="bullet"><strong>Smaller projects</strong> — Viable margin via lean AI-assisted process, no headcount growth needed</div>
+          <div class="bullet"><strong>AI at scale</strong> — AI for Operations + AI for RFPs</div>
+        </div>
+
+        <div class="divider fu" data-step="3"></div>
+        <div class="section-head fu" data-step="3">Team Goals</div>
+        <div class="bullets fu sd1" data-step="3">
+          <div class="bullet">Maintain ~31 contractors in a slow market</div>
+          <div class="bullet">Grow GPM through optimization, not headcount</div>
+          <div class="bullet">Protect retention — replacing trusted teammates costs more than keeping them</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 11 — PROPOSAL (dark)
+         Step 1: label + hero rate
+         Step 2: comparison table
+         Step 3: rationale bullets
+    ══════════════════════════════════════ -->
+    <div class="slide bg-dark" id="s10">
+      <div class="content dense">
+        <div class="slide-label fu" data-step="1">Proposal</div>
+
+        <div class="rate-hero fu sd1" data-step="1">
+          <span class="rate-num old">35</span>
+          <span class="rate-arrow">→</span>
+          <span class="rate-num new">40</span>
+          <span class="rate-unit">EUR/hr</span>
+          <span class="badge badge-success fu sd2" data-step="1"
+                style="margin-left:18px; font-size:15px; padding:6px 16px; align-self:center;">+14.3%</span>
+        </div>
+
+        <div class="tbl-wrap fu" data-step="2" style="max-width:700px; margin:0 auto;">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Current</th>
+                <th style="color:var(--sigli-green);">Proposed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="c-bold">Hourly rate</td>
+                <td>35 EUR/hr</td>
+                <td class="c-green c-bold">40 EUR/hr</td>
+              </tr>
+              <tr>
+                <td class="c-bold">Base (monthly)</td>
+                <td>5,680 EUR/mo</td>
+                <td class="c-green c-bold">~6,480 EUR/mo</td>
+              </tr>
+              <tr>
+                <td class="c-bold">Bonus</td>
+                <td>760 EUR/mo</td>
+                <td>760 EUR/mo <span style="color:rgba(255,255,255,0.32); font-size:15px;">(GPM-tied, unchanged)</span></td>
+              </tr>
+              <tr class="row-green">
+                <td class="c-bold">Total</td>
+                <td class="c-bold">6,440 EUR/mo</td>
+                <td class="c-green c-bold">~7,240 EUR/mo</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bullets fu" data-step="3" style="max-width:700px; margin:0 auto;">
+          <div class="bullet">Moves base into lower portion of Engineering Manager range (6,400–8,700) — still below Head of Eng floor</div>
+          <div class="bullet">Conservative relative to actual scope (Head of Eng tier: 8,300–11,300)</div>
+          <div class="bullet">SamTrack alone (GPM 60%, 2 months) covers the full annual cost difference</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 12 — SUMMARY / CLOSING
+         Step 1: label + h1 + h2
+         Step 2: check items
+         Step 3: footer
+    ══════════════════════════════════════ -->
+    <div class="slide bg-white" id="s11">
+      <div class="content" style="gap:20px;">
+        <div class="slide-label fu" data-step="1">Summary</div>
+        <h1 class="fu sd1" data-step="1">
+          Thank you — open to <span class="accent">discuss</span>
+        </h1>
+        <h2 class="fu sd2" data-step="1">3 departments · 4 roles · 31 people</h2>
+
+        <div class="check-list fu" data-step="2">
+          <div class="check-item">GPM +17.4% YoY · 4 new service lines initiated · headcount +24%</div>
+          <div class="check-item">Base salary is below market floor — even for the standard Engineering Manager tier</div>
+          <div class="check-item">35→40 EUR/hr is conservative; well below Head of Eng market range, offset by a single project</div>
+        </div>
+
+        <div class="fu" data-step="3"
+             style="font-size:15px; color:var(--text-muted); margin-top:4px; letter-spacing:0.03em;">
+          sigli.com · hello@sigli.com
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 13 — SOURCES
+         Auto-reveal
+    ══════════════════════════════════════ -->
+    <div class="slide bg-grey" id="s12">
+      <div class="content dense" style="text-align:left; align-items:flex-start;">
+        <div class="slide-label fu" data-step="auto" style="align-self:center;">Sources</div>
+
+        <div class="two-col fu sd1" data-step="auto" style="gap:36px; align-items:flex-start;">
+          <div>
+            <div class="source-group">
+              <h4>Salary &amp; Compensation Data</h4>
+              <a href="https://itentio.com/blog/software-engineering-manager-salary-in-poland/" class="source-link" target="_blank" rel="noopener">Itentio — Engineering Manager salary in Poland</a>
+              <a href="https://www.glassdoor.com/Salaries/warsaw-poland-engineering-manager-salary-SRCH_IL.0,13_IM1114_KO14,33.htm" class="source-link" target="_blank" rel="noopener">Glassdoor — Engineering Manager, Warsaw</a>
+              <a href="https://worldsalaries.com/average-engineering-manager-salary-in-poland/" class="source-link" target="_blank" rel="noopener">WorldSalaries — Engineering Manager, Poland</a>
+              <a href="https://www.oysterhr.com/library/what-is-a-good-bonus-percentage" class="source-link" target="_blank" rel="noopener">Oyster HR — Bonus percentage norms</a>
+            </div>
+            <div class="source-group">
+              <h4>Active Vacancy Research (14 B2B Postings, Feb 2026)</h4>
+              <span class="source-plain">JustJoinIT · NoFluffJobs · BulldogJob · LinkedIn</span>
+            </div>
+          </div>
+          <div>
+            <div class="source-group">
+              <h4>Benefits &amp; B2B Contract Norms</h4>
+              <a href="https://www.motife.com/insights/blog/b2b-contracts-in-it-industry-in-poland-in-2025" class="source-link" target="_blank" rel="noopener">MOTIFE — B2B contracts in IT Poland 2025</a>
+              <a href="https://kadromierz.pl/blog/umowa-b2b-a-urlop-wypoczynkowy/" class="source-link" target="_blank" rel="noopener">Kadromierz — B2B vacation</a>
+              <a href="https://itcompare.pl/en-us/articles/92/is-it-worth-working-on-a-b2b-contract-in-it-in-2026" class="source-link" target="_blank" rel="noopener">ITCompare — B2B in IT 2026</a>
+              <a href="https://www.accace.com/labour-law-and-employment-in-poland/" class="source-link" target="_blank" rel="noopener">Accace — Labour law Poland 2026</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /stage -->
+</div><!-- /presentation -->
+
+<!-- Navigation UI -->
+<div class="nav-dots" id="navDots"></div>
+<div class="slide-counter" id="slideCounter"></div>
+<div class="key-hint">← → or Space</div>
+
+<script>
+  const slides    = Array.from(document.querySelectorAll('.slide'));
+  const dotsEl    = document.getElementById('navDots');
+  const counter   = document.getElementById('slideCounter');
+  const prog      = document.getElementById('progressBar');
+  const TOTAL     = slides.length;
+  let   current   = 0;
+  let   slideStep = new Array(TOTAL).fill(0);
+
+  /* ── Build nav dots ── */
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(d);
+  });
+
+  /* ── Highest manual step number in a slide (0 = all auto) ── */
+  function maxStep(idx) {
+    let max = 0;
+    slides[idx].querySelectorAll('[data-step]').forEach(el => {
+      const n = parseInt(el.dataset.step, 10);
+      if (!isNaN(n) && n > max) max = n;
+    });
+    return max;
+  }
+
+  /* ── Reveal all data-step="auto" elements immediately on entry ── */
+  function revealAuto(idx) {
+    slides[idx].querySelectorAll('[data-step="auto"]').forEach(el => el.classList.add('in'));
+  }
+
+  /* ── Reveal all elements at step N ── */
+  function revealStep(idx, n) {
+    slides[idx].querySelectorAll(`[data-step="${n}"]`).forEach(el => el.classList.add('in'));
+  }
+
+  /* ── Reset a slide (remove all .in) ── */
+  function resetSlide(idx) {
+    slides[idx].querySelectorAll('.fu').forEach(el => el.classList.remove('in'));
+    slideStep[idx] = 0;
+  }
+
+  /* ── Navigate to slide index ── */
+  function goTo(idx) {
+    if (idx < 0 || idx >= TOTAL) return;
+    slides[current].classList.remove('active');
+    resetSlide(current);
+    current = idx;
+    slides[current].classList.add('active');
+    requestAnimationFrame(() => requestAnimationFrame(() => revealAuto(current)));
+    updateUI();
+  }
+
+  /* ── Space / → : go to next slide ── */
+  function nextAction() {
+    goTo(current + 1);
+  }
+
+  /* ── Update progress bar, counter, dots ── */
+  function updateUI() {
+    document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    counter.textContent = (current + 1) + ' / ' + TOTAL;
+    prog.style.width    = ((current + 1) / TOTAL * 100) + '%';
+  }
+
+  /* ── Keyboard ── */
+  document.addEventListener('keydown', e => {
+    if (e.key === ' ' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      nextAction();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      goTo(current - 1);
+    }
+  });
+
+  /* ── Touch swipe ── */
+  let touchX = 0;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) dx < 0 ? nextAction() : goTo(current - 1);
+  });
+
+  /* ── Init ── */
+  revealAuto(0);
+  updateUI();
+</script>
+</body>
+</html>
